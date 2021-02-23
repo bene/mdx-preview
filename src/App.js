@@ -3,9 +3,17 @@ import mdx from "@mdx-js/mdx";
 import Editor from "@monaco-editor/react";
 import MDX from "@mdx-js/runtime";
 
+function setURLParameter(key, value) {
+  const url = new URL(document.location);
+  url.searchParams.set(key, value);
+  window.history.replaceState(null, null, "?" + url.searchParams.toString());
+}
+
 function App() {
   const [valid, setIsValid] = useState(true);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(
+    new URL(window.location).searchParams.get("code")
+  );
   const [result, setResult] = useState("");
 
   useEffect(() => {
@@ -15,6 +23,7 @@ function App() {
           setIsValid(true);
         }
         setResult(value);
+        setURLParameter("code", value);
       })
       .catch(() => {
         setIsValid(false);
