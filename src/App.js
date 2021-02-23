@@ -11,13 +11,15 @@ function App() {
   useEffect(() => {
     mdx(value)
       .then((_) => {
-        setIsValid(true);
+        if (!valid) {
+          setIsValid(true);
+        }
         setResult(value);
       })
       .catch(() => {
         setIsValid(false);
       });
-  }, [value, setResult]);
+  }, [valid, value, setResult]);
 
   return (
     <div className="d-flex h-100 flex-row bg-dark">
@@ -31,9 +33,6 @@ function App() {
         />
       </div>
       <div className="col-7 d-flex flex-column p-3">
-        <div className="mb-3 bg-white p-5 shadow rounded overflow-y-scroll">
-          sad
-        </div>
         <div className="flex-grow-1 bg-white p-5 shadow rounded overflow-y-scroll">
           <MDX>{result}</MDX>
         </div>
